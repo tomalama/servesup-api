@@ -5,7 +5,8 @@
   "author": "tomalama <tommy.nguyen7@hotmail.com>",
   "main": "functions/__main__.js",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "nutritionix": "^0.6.1"
   },
   "private": true,
   "stdlib": {
