@@ -6,7 +6,7 @@
   "main": "functions/__main__.js",
   "dependencies": {
     "axios": "^0.18.0",
-    "nutritionix": "^0.6.1"
+    "lib": "^3.0.2"
   },
   "private": true,
   "stdlib": {
