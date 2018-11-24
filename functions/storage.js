@@ -16,14 +16,14 @@ export const retrieveRestaurantMenu = restaurantName => {
   });
 };
 
-export const storeMenuItem = (itemName, itemInfo) => {
-  return storage.set(itemName, itemInfo, (err, value) => {
+export const storeMenuItem = (itemId, itemInfo) => {
+  return storage.set(itemId, itemInfo, (err, value) => {
     return err || value;
   });
 };
 
-export const retrieveMenuItem = itemName => {
-  return storage.get(itemName, (err, value) => {
+export const retrieveMenuItem = itemId => {
+  return storage.get(itemId, (err, value) => {
     if (err) {
       return null;
     }
