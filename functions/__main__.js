@@ -10,8 +10,8 @@ module.exports = async (name = "world") => {
     baseURL: "https://trackapi.nutritionix.com/v2/",
     timeout: 3000,
     headers: {
-      "x-app-id": "2259fc18",
-      "x-app-key": "0379ecf284ebfe008aa0956a96cd24dc"
+      "x-app-id": "a82c1c0d",
+      "x-app-key": "8456f030d636fd746bb3d50ddf6059f2"
     }
   });
 
@@ -39,7 +39,37 @@ module.exports = async (name = "world") => {
     }
   });
 
-  console.log(results.data.branded);
+  // console.log(results.data.branded);
 
-  return JSON.stringify(results.data.branded);
+  const menuItems = await Promise.all(results.data.branded.map(async (menuItem, index) => {
+    if (index < 1) {
+      let item = await instance.get("search/item", {
+        params: {
+          nix_item_id: menuItem.nix_item_id,
+          claims: true
+        }
+      });
+  
+      return item.data.foods[0];
+    }
+    return 'lol';
+  }));
+
+  console.log(menuItems);
+
+  // results.data.branded.forEach((menuItem, index) => {
+  //   if (index < 1) {
+  //     let results = await instance.get("search/item", {
+  //       params: {
+  //         nix_item_id: menuItem.nix_item_id,
+  //         claims: true
+  //       }
+  //     });
+  //     console.log(results);
+  //   }
+  //   // menuItems.push(menuItem.);
+  // });
+
+  return 'Sup lol'; //JSON.stringify(results.data.branded);
 };
+
