@@ -1,11 +1,13 @@
+// Import libraries
 const axios = require("axios");
 
 /**
- * A basic Hello World function
- * @param {string} name Who you're saying hello to
+ * A function that gives you nutritional information about dishes around the location.
+ * @param {string} ll Latitude, longitude
+ * @param {string} distance Radius around location to search
  * @returns {string}
  */
-module.exports = async (name = "world") => {
+module.exports = async (ll = "43.0044943,-81.2764182", distance = "50m") => {
   const instance = axios.create({
     baseURL: "https://trackapi.nutritionix.com/v2/",
     timeout: 3000,
@@ -15,61 +17,53 @@ module.exports = async (name = "world") => {
     }
   });
 
-  let { data } = await instance.get("locations", {
+  // Gets information about restaurants around the coordinates
+  let locationRequest = await instance.get("locations", {
     params: {
-      ll: "40.7128,-74.006",
-      distance: "50m"
+      ll,
+      distance
     }
   });
+  let { locations } = locationRequest.data;
 
-  let { locations } = data;
+  // Store an array for all menu items (in all locations)
+  let allMenuItems = [];
 
-  // console.log(locations);
+  // Iterate through each location
+  locations.forEach(async location => {
+    // Get menu items for location
+    let menuForLocationRequest = await instance.get("search/instant", {
+      params: {
+        brand_ids: [location.brand_id],
+        query: location.brand_name
+      }
+    });
+    let { branded } = menuForLocationRequest.data;
 
-  // console.log(locations.map(location => {
-  //   return location.brand_id;
-  // }))
+    // TODO: store {brand_name, branded}
 
-  let results = await instance.get("search/instant", {
-    params: {
-      brand_ids: locations.map(location => {
-        return location.brand_id;
-      }),
-      query: "Checker"
-    }
+    // Add menu items for this location into allMenuItems array
+    allMenuItems.concat(branded);
   });
 
-  // console.log(results.data.branded);
+  // Get nutritional information for all menu items
+  const allMenuItemsWithNutritions = await Promise.all(
+    allMenuItems.map(async (menuItem, index) => {
+      if (index < 1) {
+        let item = await instance.get("search/item", {
+          params: {
+            nix_item_id: menuItem.nix_item_id,
+            claims: true
+          }
+        });
 
-  const menuItems = await Promise.all(results.data.branded.map(async (menuItem, index) => {
-    if (index < 1) {
-      let item = await instance.get("search/item", {
-        params: {
-          nix_item_id: menuItem.nix_item_id,
-          claims: true
-        }
-      });
-  
-      return item.data.foods[0];
-    }
-    return 'lol';
-  }));
+        return item.data.foods[0];
+      }
+      return "lol";
+    })
+  );
 
-  console.log(menuItems);
+  console.log(allMenuItemsWithNutritions);
 
-  // results.data.branded.forEach((menuItem, index) => {
-  //   if (index < 1) {
-  //     let results = await instance.get("search/item", {
-  //       params: {
-  //         nix_item_id: menuItem.nix_item_id,
-  //         claims: true
-  //       }
-  //     });
-  //     console.log(results);
-  //   }
-  //   // menuItems.push(menuItem.);
-  // });
-
-  return 'Sup lol'; //JSON.stringify(results.data.branded);
+  return "Sup lol"; //JSON.stringify(allMenuItemsWithNutritions);
 };
-
