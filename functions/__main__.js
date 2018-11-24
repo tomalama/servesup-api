@@ -4,6 +4,10 @@ const lib = require("lib")({
   token: process.env.STDLIB_LIBRARY_TOKEN
 });
 const storage = lib.utils.storage["@0.1.6"];
+
+// API Keys
+const NUTRITIONIX_APP_ID = process.env.NUTRITIONIX_APP_ID;
+const NUTRITIONIX_API_KEY = process.env.NUTRITIONIX_API_KEY;
 const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 
 /**
@@ -20,8 +24,8 @@ module.exports = async (
     baseURL: "https://trackapi.nutritionix.com/v2/",
     timeout: 3000,
     headers: {
-      "x-app-id": "a82c1c0d",
-      "x-app-key": "8456f030d636fd746bb3d50ddf6059f2"
+      "x-app-id": NUTRITIONIX_APP_ID,
+      "x-app-key": NUTRITIONIX_API_KEY
     }
   });
 
