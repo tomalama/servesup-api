@@ -16,10 +16,7 @@ const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
  * @param {string} distance Radius around location to search in meters
  * @returns {string}
  */
-module.exports = async (
-  ll = "43.004525099999995,-81.27643669999999",
-  distance = "300"
-) => {
+module.exports = async (ll = "43.009539,-81.273808", distance = "300") => {
   const instance = axios.create({
     baseURL: "https://trackapi.nutritionix.com/v2/",
     timeout: 3000,
