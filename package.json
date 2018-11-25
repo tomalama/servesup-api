@@ -1,6 +1,6 @@
 {
   "name": "servesup",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get nutritional information about menu items around you! 🍲",
   "author": "tomalama <tommy.nguyen7@hotmail.com>",
   "main": "functions/__main__.js",
