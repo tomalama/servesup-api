@@ -10,7 +10,7 @@ This API provides nutritional information about restaurant menu items around a p
 
 ```javascript
 const lib = require("lib");
-const servesup = lib.tomalama.servesup["@0.0.3"];
+const servesup = lib.tomalama.servesup["@0.0.4"];
 
 let result = await servesup();
 ```
