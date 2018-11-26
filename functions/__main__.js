@@ -14,7 +14,7 @@ const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
  * A function that gives you nutritional information about restaurant menu items around the location.
  * @param {string} ll Latitude, longitude
  * @param {string} distance Radius around location to search in meters
- * @returns {string}
+ * @returns {array}
  */
 module.exports = async (ll = "43.009539,-81.273808", distance = "300") => {
   const instance = axios.create({
@@ -122,7 +122,7 @@ module.exports = async (ll = "43.009539,-81.273808", distance = "300") => {
 
   console.log(allMenuItemsWithNutritions);
 
-  return JSON.stringify(allMenuItemsWithNutritions);
+  return allMenuItemsWithNutritions;
 };
 
 const getRestaurantsByNutritionix = async (instance, ll, distance) => {
